@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>hussam jarrar</title>
+    <title><fifty-percent></fifty-percent></title>
 </head>
 <body>
     <h1>مرحبا 👋</h1>
@@ -36,5 +36,164 @@
 <body>
     <h1>موقعي الأول 🎉</h1>
     <p>أهلاً وسهلاً في موقعي</p>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fifty Percent - المتجر الإلكتروني</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            background: #f7f7f7;
+        }
+        header {
+            background: #ff4c4c;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+        .product {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .product img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product button {
+            background: #ff4c4c;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .cart {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            width: 250px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .cart h3 {
+            margin-top: 0;
+            text-align: center;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .cart button {
+            background: #25D366;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>Fifty Percent - المتجر الإلكتروني</header>
+
+    <div class="cart" id="cart">
+        <h3>سلة الشراء</h3>
+        <div id="cart-items"></div>
+        <strong>المجموع: <span id="total">0</span> د.أ</strong>
+        <button onclick="sendWhatsApp()">طلب عبر واتساب</button>
+    </div>
+
+    <div class="products" id="products"></div>
+
+    <script>
+        const products = [
+            { name: "منتج 1", price: 25, img: "https://via.placeholder.com/150" },
+            { name: "منتج 2", price: 50, img: "https://via.placeholder.com/150" },
+            { name: "منتج 3", price: 15, img: "https://via.placeholder.com/150" },
+            { name: "منتج 4", price: 100, img: "https://via.placeholder.com/150" },
+            { name: "منتج 5", price: 35, img: "https://via.placeholder.com/150" },
+            // تقدر تضيف منتجات أكثر هنا بسهولة
+        ];
+
+        const cart = [];
+
+        function displayProducts() {
+            const productsDiv = document.getElementById("products");
+            productsDiv.innerHTML = "";
+            products.forEach((product, index) => {
+                const productDiv = document.createElement("div");
+                productDiv.className = "product";
+                productDiv.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <h4>${product.name}</h4>
+                    <p>${product.price} د.أ</p>
+                    <button onclick="addToCart(${index})">أضف للسلة</button>
+                `;
+                productsDiv.appendChild(productDiv);
+            });
+        }
+
+        function addToCart(index) {
+            cart.push(products[index]);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItemsDiv = document.getElementById("cart-items");
+            const totalDiv = document.getElementById("total");
+            cartItemsDiv.innerHTML = "";
+            let total = 0;
+            cart.forEach((item, i) => {
+                total += item.price;
+                const itemDiv = document.createElement("div");
+                itemDiv.className = "cart-item";
+                itemDiv.innerHTML = `${item.name} - ${item.price} د.أ <button onclick="removeItem(${i})">❌</button>`;
+                cartItemsDiv.appendChild(itemDiv);
+            });
+            totalDiv.innerText = total;
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function sendWhatsApp() {
+            if(cart.length === 0) return alert("السلة فارغة!");
+            const phoneNumber = "962XXXXXXXXX"; // حط رقمك بالصيغة الدولية بدون +
+            let message = "طلب من موقع Fifty Percent:\n";
+            cart.forEach(item => {
+                message += `${item.name} - ${item.price} د.أ\n`;
+            });
+            message += `المجموع: ${cart.reduce((sum, i) => sum + i.price, 0)} د.أ`;
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, "_blank");
+        }
+
+        displayProducts();
+    </script>
 </body>
 </html>
